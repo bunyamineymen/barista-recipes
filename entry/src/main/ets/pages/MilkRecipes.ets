@@ -1,16 +1,14 @@
 import { ArcList, ArcListItem, ComponentContent } from '@kit.ArkUI';
-import { CustomButton } from '../view/CustumButton';
+import { CustomButton } from '../view/CustomButton';
 
 @Builder
 function header() {
-  Column() {
     Text('MILKY RECIPES')
       .fontSize(15)
       .fontWeight(FontWeight.Bold)
       .textAlign(TextAlign.Center)
       .margin({ top: 16, bottom: 12 })
       .fontColor('#C6A575')
-  }
 }
 
 

@@ -1,7 +1,6 @@
 import { vibrator } from '@kit.SensorServiceKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 
-@Entry
 @Component
 export struct ReadyCoffee {
   watchSize: string = '466px'
@@ -14,7 +13,7 @@ export struct ReadyCoffee {
     try {
       vibrator.startVibration({
         type: 'time',
-        duration: 8000,
+        duration: 8000
       }, {
         id: 0,
         usage: 'alarm'

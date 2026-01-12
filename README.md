@@ -6,12 +6,12 @@ BaristaRecipes is a demo app that helps users brew delicious coffee at home. It 
 
 # Preview
 
-<p align="left">
-  <img src="images/c1.PNG" width="24%">
-  <img src="images/c3.PNG" width="24%">
-  <img src="images/c2.PNG" width="24%">
-  <img src="images/coffeeoutput.png" width="24%">
-</p>
+<div>
+  <img src="screenshots/c1.PNG" width="24%">
+  <img src="screenshots/c3.PNG" width="24%">
+  <img src="screenshots/c2.PNG" width="24%">
+  <img src="screenshots/coffeeoutput.png" width="24%">
+</div>
 
 # Use Cases
 
@@ -50,7 +50,7 @@ Libraries: `@kit.ArkUI`, `@kit.SensorServiceKit`
 ## Supported Devices
 Huawei Watch 5
 
-# LICENSE
+# License
 
 BaristaRecipes is distributed under the terms of the MIT License.  
 See the [LICENSE](/LICENSE) for more information.

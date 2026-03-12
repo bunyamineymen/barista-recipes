@@ -57,8 +57,10 @@ export struct RecipeDetail {
                   .fontWeight(FontWeight.Bold)
                   .fontColor(CoffeeConstants.ACCENT_COLOR)
 
-                Circle({ width: 24, height: 24 })
-                  .fill(this.isFavorite ? Color.Red : Color.Gray)
+                Image(this.isFavorite ? $r('app.media.ic_heart_filled') : $r('app.media.ic_heart_empty'))
+                  .width(32)
+                  .height(32)
+                  .fillColor(this.isFavorite ? Color.Red : CoffeeConstants.ACCENT_COLOR)
                   .margin({ left: 10 })
                   .onClick(() => {
                     this.toggleFavorite()

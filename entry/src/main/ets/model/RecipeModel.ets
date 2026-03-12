@@ -31,6 +31,7 @@ export interface Recipe {
   ingredients: Ingredient[];
   steps: RecipeStep[];
   totalTimeMinutes: number;
+  icon?: Resource;
 }
 
 export interface BrewRecord {

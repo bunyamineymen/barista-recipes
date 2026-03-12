@@ -21,14 +21,12 @@ export struct RecipeDetail {
       await RecipeService.getInstance().toggleFavorite(this.recipeId);
       this.isFavorite = !this.isFavorite;
       // Using promptAction.showToast, but will keep an eye on deprecation warnings
-
-      this.getUIContext().getPromptAction().showToast({
+      promptAction.showToast({
         message: this.isFavorite ? 'Added to favorites' : 'Removed from favorites',
         duration: 2000
       });
-
     } catch (err) {
-      this.getUIContext().getPromptAction().showToast({
+      promptAction.showToast({
         message: 'Failed to update favorites',
         duration: 2000
       });
@@ -36,7 +34,9 @@ export struct RecipeDetail {
   }
 
   getRecipeIcon(): Resource {
-    if (!this.recipe) return $r('app.media.coffee');
+    if (this.recipe && this.recipe.icon) {
+      return this.recipe.icon;
+    }
     return $r('app.media.coffee');
   }
 

@@ -49,7 +49,7 @@
         "reason": "$string:app_name",
         "usedScene": {
           "abilities": [
-            "FormAbility"
+            "EntryAbility"
           ],
           "when":"inuse"
         }

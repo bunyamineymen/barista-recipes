@@ -5,15 +5,19 @@ export struct BackButton {
   @Consume('pathStack') pathStack: NavPathStack;
 
   build() {
-    Button(' < ')
+    Button('<')
       .backgroundColor(CoffeeConstants.ACCENT_COLOR)
       .fontColor(CoffeeConstants.PRIMARY_COLOR)
-      .borderRadius(20)
-      .width(40)
-      .height(40)
-      .position({ x: 20, y: 20 })
+      .borderRadius(40)
+      .width(80)
+      .height(80)
+      .fontSize(30)
+      .fontWeight(FontWeight.Bold)
+      .position({ x: 10, y: 10 }) // Moved slightly more to the corner
       .onClick(() => {
-        this.pathStack.pop();
+        if (this.pathStack) {
+          this.pathStack.pop();
+        }
       })
   }
 }

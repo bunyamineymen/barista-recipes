@@ -16,6 +16,7 @@ export class RecipeService {
       category: RecipeCategory.MILK,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 5,
+      icon: $r('app.media.ic_latte'),
       ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Milk', amount: '200ml' }],
       steps: [
         { description: 'Grind coffee beans', timerSeconds: 15, type: 'espresso' },
@@ -33,6 +34,7 @@ export class RecipeService {
       category: RecipeCategory.MILK,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 5,
+      icon: $r('app.media.ic_cappuccino'),
       ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Milk', amount: '150ml' }],
       steps: [
         { description: 'Pull espresso shot', timerSeconds: 25, type: 'espresso' },
@@ -49,6 +51,7 @@ export class RecipeService {
       category: RecipeCategory.MILK,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 4,
+      icon: $r('app.media.ic_latte'),
       ingredients: [{ name: 'Double Espresso', amount: '60ml' }, { name: 'Milk', amount: '120ml' }],
       steps: [
         { description: 'Pull double espresso', timerSeconds: 30, type: 'espresso' },
@@ -65,6 +68,7 @@ export class RecipeService {
       category: RecipeCategory.DAIRY_FREE,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 3,
+      icon: $r('app.media.ic_americano'),
       ingredients: [{ name: 'Espresso', amount: '60ml' }, { name: 'Hot Water', amount: '120ml' }],
       steps: [
         { description: 'Pull double espresso shot', timerSeconds: 30, type: 'espresso' },
@@ -79,6 +83,7 @@ export class RecipeService {
       category: RecipeCategory.DAIRY_FREE,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 4,
+      icon: $r('app.media.ic_espresso'),
       ingredients: [{ name: 'Espresso', amount: '60ml' }, { name: 'Ice', amount: '100g' }, { name: 'Water', amount: '50ml' }],
       steps: [
         { description: 'Pull double espresso', timerSeconds: 30, type: 'espresso' },
@@ -94,6 +99,7 @@ export class RecipeService {
       category: RecipeCategory.DAIRY_FREE,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 2,
+      icon: $r('app.media.ic_espresso'),
       ingredients: [{ name: 'Coffee beans', amount: '18g' }],
       steps: [
         { description: 'Grind coffee', type: 'espresso' },
@@ -108,6 +114,7 @@ export class RecipeService {
       category: RecipeCategory.COLD,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 3,
+      icon: $r('app.media.ic_iced_coffee'),
       ingredients: [{ name: 'Espresso', amount: '60ml' }, { name: 'Cold Milk', amount: '150ml' }, { name: 'Ice', amount: 'Full glass' }],
       steps: [
         { description: 'Pull double espresso', timerSeconds: 30, type: 'espresso' },
@@ -122,6 +129,7 @@ export class RecipeService {
       category: RecipeCategory.COLD,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 2,
+      icon: $r('app.media.ic_iced_coffee'),
       ingredients: [{ name: 'Cold Brew Conc.', amount: '100ml' }, { name: 'Water/Milk', amount: '100ml' }, { name: 'Ice', amount: 'Some' }],
       steps: [
         { description: 'Add ice to glass', type: 'other' },
@@ -135,6 +143,7 @@ export class RecipeService {
       category: RecipeCategory.COLD,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 2,
+      icon: $r('app.media.ic_iced_coffee'),
       ingredients: [{ name: 'Espresso', amount: '60ml' }, { name: 'Cold Water', amount: '100ml' }, { name: 'Ice', amount: 'Some' }],
       steps: [
         { description: 'Add ice to glass', type: 'other' },
@@ -148,6 +157,7 @@ export class RecipeService {
       category: RecipeCategory.COLD,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 5,
+      icon: $r('app.media.ic_iced_coffee'),
       ingredients: [{ name: 'Instant Coffee', amount: '2 tsp' }, { name: 'Sugar', amount: '2 tsp' }, { name: 'Water', amount: '30ml' }, { name: 'Ice/Milk', amount: 'Some' }],
       steps: [
         { description: 'Mix coffee, sugar, water', type: 'other' },
@@ -162,6 +172,7 @@ export class RecipeService {
       category: RecipeCategory.SPECIAL,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 6,
+      icon: $r('app.media.ic_latte'),
       ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Choc. Syrup', amount: '20ml' }, { name: 'Milk', amount: '150ml' }],
       steps: [
         { description: 'Mix espresso and syrup', type: 'espresso' },
@@ -175,6 +186,7 @@ export class RecipeService {
       category: RecipeCategory.SPECIAL,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 5,
+      icon: $r('app.media.ic_latte'),
       ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Vanilla Syrup', amount: '15ml' }, { name: 'Milk', amount: '150ml' }, { name: 'Caramel', amount: 'Drizzle' }],
       steps: [
         { description: 'Add vanilla syrup to glass', type: 'other' },
@@ -190,6 +202,7 @@ export class RecipeService {
       category: RecipeCategory.SPECIAL,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 3,
+      icon: $r('app.media.ic_espresso'),
       ingredients: [{ name: 'Vanilla Ice Cream', amount: '1 scoop' }, { name: 'Espresso', amount: '30ml' }],
       steps: [
         { description: 'Place ice cream in cup', type: 'other' },
@@ -204,6 +217,7 @@ export class RecipeService {
       category: RecipeCategory.TEA,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 5,
+      icon: $r('app.media.ic_tea'),
       ingredients: [{ name: 'Matcha Powder', amount: '2g' }, { name: 'Hot Water', amount: '30ml' }, { name: 'Milk', amount: '200ml' }],
       steps: [
         { description: 'Whisk matcha and hot water', timerSeconds: 60, type: 'other' },
@@ -217,6 +231,7 @@ export class RecipeService {
       category: RecipeCategory.TEA,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 4,
+      icon: $r('app.media.ic_tea'),
       ingredients: [{ name: 'Chai Concentrate', amount: '50ml' }, { name: 'Milk', amount: '200ml' }, { name: 'Cinnamon', amount: 'Pinch' }],
       steps: [
         { description: 'Pour Chai concentrate', type: 'other' },
@@ -267,7 +282,6 @@ export class RecipeService {
       await this.pref.flush();
     } catch (err) {
       console.error('Failed to toggle favorite', err);
-      // Removed generic throw. You can wrap it or handle it as needed.
     }
   }
 

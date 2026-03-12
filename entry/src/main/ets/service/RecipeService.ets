@@ -2,6 +2,7 @@ import { Recipe, RecipeCategory, Difficulty, BrewRecord } from '../model/RecipeM
 import { preferences } from '@kit.ArkData';
 import { common } from '@kit.AbilityKit';
 import { CoffeeConstants } from '../common/Constants';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 export class RecipeService {
   private static instance: RecipeService;
@@ -252,8 +253,13 @@ export class RecipeService {
   }
 
   async init(context: common.Context): Promise<void> {
-    this.context = context;
-    this.pref = await preferences.getPreferences(context, CoffeeConstants.PREFERENCES_NAME);
+    try {
+      this.context = context;
+      this.pref = await preferences.getPreferences(context, CoffeeConstants.PREFERENCES_NAME);
+    } catch (err) {
+      const error = err as BusinessError;
+      throw new Error(`RecipeService init failed: ${error.message}`);
+    }
   }
 
   getAllRecipes(): Recipe[] {
@@ -281,7 +287,8 @@ export class RecipeService {
       await this.pref.put(CoffeeConstants.KEY_FAVORITES, JSON.stringify(favorites));
       await this.pref.flush();
     } catch (err) {
-      console.error('Failed to toggle favorite', err);
+      const error = err as BusinessError;
+      throw new Error(`Failed to toggle favorite: ${error.message}`);
     }
   }
 
@@ -296,7 +303,6 @@ export class RecipeService {
       const favsJson = await this.pref.get(CoffeeConstants.KEY_FAVORITES, '[]');
       return JSON.parse(favsJson as string);
     } catch (err) {
-      console.error('Failed to get favorites', err);
       return [];
     }
   }
@@ -312,7 +318,8 @@ export class RecipeService {
       await this.pref.put(CoffeeConstants.KEY_HISTORY, JSON.stringify(history));
       await this.pref.flush();
     } catch (err) {
-      console.error('Failed to add brew history', err);
+      const error = err as BusinessError;
+      throw new Error(`Failed to add history: ${error.message}`);
     }
   }
 
@@ -322,7 +329,6 @@ export class RecipeService {
       const historyJson = await this.pref.get(CoffeeConstants.KEY_HISTORY, '[]');
       return JSON.parse(historyJson as string);
     } catch (err) {
-      console.error('Failed to get history', err);
       return [];
     }
   }

@@ -11,8 +11,8 @@ export struct ReadyCoffee {
   @Consume('pathStack') pathStack: NavPathStack;
 
   watchSize: string = CoffeeConstants.WATCH_SIZE;
-  private mixingThreshold: number = 15; // Acceleration threshold
-  private targetMixingPoints: number = 50; // Points to complete mixing
+  private mixingThreshold: number = 15;
+  private targetMixingPoints: number = 50;
 
   aboutToAppear(): void {
     this.startVibrate();
@@ -25,21 +25,20 @@ export struct ReadyCoffee {
     this.stopMixingDetection();
   }
 
-  saveToHistory() {
+  saveToHistory(): void {
     const recipe = RecipeService.getInstance().getRecipeById(this.recipeId);
     if (recipe) {
       RecipeService.getInstance().addBrewHistory({
         recipeId: recipe.id,
         recipeName: recipe.name,
         timestamp: Date.now(),
-        durationSeconds: recipe.totalTimeMinutes * 60 // Simplified
+        durationSeconds: recipe.totalTimeMinutes * 60
       });
     }
   }
 
-  startVibrate() {
+  startVibrate(): void {
     try {
-      // Rhythmic vibration for mixing
       vibrator.startVibration({
         type: 'time',
         duration: 8000
@@ -48,19 +47,19 @@ export struct ReadyCoffee {
         usage: 'alarm'
       });
     } catch (err) {
-      console.error('Vibration failed', err);
+      // Hardware fail ignored
     }
   }
 
-  stopVibrate() {
+  stopVibrate(): void {
     try {
       vibrator.stopVibration(vibrator.VibratorStopMode.VIBRATOR_STOP_MODE_TIME);
     } catch (err) {
-      console.error('Stop vibration failed', err);
+      // Hardware fail ignored
     }
   }
 
-  startMixingDetection() {
+  startMixingDetection(): void {
     try {
       sensor.on(sensor.SensorId.ACCELEROMETER, (data: sensor.AccelerometerResponse) => {
         const acceleration = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
@@ -72,17 +71,17 @@ export struct ReadyCoffee {
         } else {
           this.isMixing = false;
         }
-      }, { interval: 100000000 }); // 100ms
+      }, { interval: 100000000 });
     } catch (err) {
-      console.error('Accelerometer failed', err);
+      // Sensor fail ignored
     }
   }
 
-  stopMixingDetection() {
+  stopMixingDetection(): void {
     try {
       sensor.off(sensor.SensorId.ACCELEROMETER);
     } catch (err) {
-      console.error('Stop accelerometer failed', err);
+      // Sensor fail ignored
     }
   }
 
@@ -97,14 +96,14 @@ export struct ReadyCoffee {
 
           Image($r('app.media.coffee'))
             .width('40%')
-            .fillColor(this.isMixing ? CoffeeConstants.ACCENT_COLOR : CoffeeConstants.WHITE)
+            .fillColor(this.isMixing ? CoffeeConstants.ACCENT_COLOR : Color.White)
             .scale({ x: this.isMixing ? 1.1 : 1.0, y: this.isMixing ? 1.1 : 1.0 })
             .animation({ duration: 200 })
 
           if (this.mixingProgress < 100) {
             Column({ space: 5 }) {
               Text('Shake to mix properly')
-                .fontColor(CoffeeConstants.WHITE)
+                .fontColor(Color.White)
                 .fontSize(14)
 
               Progress({ value: this.mixingProgress, total: 100, type: ProgressType.Linear })
@@ -123,7 +122,9 @@ export struct ReadyCoffee {
             .fontColor(CoffeeConstants.PRIMARY_COLOR)
             .margin({ top: 20 })
             .onClick(() => {
-              this.pathStack.clear();
+              if (this.pathStack) {
+                this.pathStack.clear();
+              }
             })
         }
         .width(this.watchSize)

@@ -56,6 +56,7 @@ struct Index {
   }
 
   getParamString(param: object): string {
+    if (param === null || param === undefined) return '';
     return param.toString();
   }
 

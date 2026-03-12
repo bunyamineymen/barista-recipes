@@ -10,7 +10,7 @@ export struct CurrentCoffeeRecipe {
   @Prop recipeId: string;
   @State currentStepIndex: number = 0;
   @State timeLeft: number = 0;
-  @State totalStepTime: number = 0; // New state to track initial timer duration
+  @State totalStepTime: number = 0;
   @State isTimerRunning: boolean = false;
   @State recipe: Recipe | undefined = undefined;
   @Consume('pathStack') pathStack: NavPathStack;
@@ -21,27 +21,17 @@ export struct CurrentCoffeeRecipe {
   aboutToAppear(): void {
     this.recipe = RecipeService.getInstance().getRecipeById(this.recipeId);
     this.resetTimer();
-    this.startVoiceCommandDetection();
   }
 
   aboutToDisappear(): void {
     this.stopTimer();
-    this.stopVoiceCommandDetection();
-  }
-
-  startVoiceCommandDetection(): void {
-    console.info('SpeechRecognizer: Listening for "Next", "Start Timer", "Pause"');
-  }
-
-  stopVoiceCommandDetection(): void {
-    console.info('SpeechRecognizer: Stopped listening');
   }
 
   resetTimer(): void {
     this.stopTimer();
     if (this.recipe && this.recipe.steps[this.currentStepIndex] && this.recipe.steps[this.currentStepIndex].timerSeconds) {
       this.timeLeft = this.recipe.steps[this.currentStepIndex].timerSeconds!;
-      this.totalStepTime = this.timeLeft; // Set total time for progress ring
+      this.totalStepTime = this.timeLeft;
     } else {
       this.timeLeft = 0;
       this.totalStepTime = 0;
@@ -80,7 +70,7 @@ export struct CurrentCoffeeRecipe {
         usage: 'alarm'
       });
     } catch (err) {
-      console.error('Vibration failed', err);
+      // Silently fail vibration to prevent app crash if hardware service is unavailable
     }
   }
 
@@ -100,7 +90,6 @@ export struct CurrentCoffeeRecipe {
       Stack({ alignContent: Alignment.TopStart }) {
         if (this.recipe) {
           Stack() {
-            // DYNAMIC PROGRESS RING: Shows timer countdown if active, otherwise step progress
             Progress({
               value: this.timeLeft > 0 ? this.timeLeft : this.currentStepIndex + 1,
               total: this.timeLeft > 0 ? this.totalStepTime : this.recipe.steps.length,
@@ -175,7 +164,7 @@ export struct CurrentCoffeeRecipe {
                       this.currentStepIndex++;
                       this.resetTimer();
                       this.vibrate('short');
-                    } else {
+                    } else if (this.recipe) {
                       this.pathStack.pushPathByName('ReadyCoffee', this.recipeId);
                     }
                   })
@@ -195,11 +184,10 @@ export struct CurrentCoffeeRecipe {
       .width(this.watchSize)
       .height(this.watchSize)
       .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
-      // Added Swipe-back gesture
       .gesture(
         PanGesture({ direction: PanDirection.Right })
           .onActionEnd(() => {
-            this.pathStack.pop();
+            if (this.pathStack) this.pathStack.pop();
           })
       )
     }

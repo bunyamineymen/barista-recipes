@@ -91,7 +91,9 @@ export struct RecipeDetail {
                 .fontColor(CoffeeConstants.PRIMARY_COLOR)
                 .margin({ top: 20, bottom: 40 })
                 .onClick(() => {
-                  this.pathStack.pushPathByName('CurrentCoffeeRecipe', this.recipeId)
+                  if (this.pathStack) {
+                    this.pathStack.pushPathByName('CurrentCoffeeRecipe', this.recipeId)
+                  }
                 })
             }
             .width('100%')

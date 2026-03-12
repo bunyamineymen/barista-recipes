@@ -20,11 +20,23 @@ export struct CurrentCoffeeRecipe {
   aboutToAppear() {
     this.recipe = RecipeService.getInstance().getRecipeById(this.recipeId);
     this.resetTimer();
-    // Voice command simulation / preparation would go here if SpeechRecognizer was fully accessible
+    this.startVoiceCommandDetection();
   }
 
   aboutToDisappear() {
     this.stopTimer();
+    this.stopVoiceCommandDetection();
+  }
+
+  startVoiceCommandDetection() {
+    // Placeholder for SpeechRecognizer implementation
+    // In a real device, we would initialize SpeechRecognizer here
+    console.info('SpeechRecognizer: Listening for "Next", "Start Timer", "Pause"');
+  }
+
+  stopVoiceCommandDetection() {
+    // Placeholder to release SpeechRecognizer resources
+    console.info('SpeechRecognizer: Stopped listening');
   }
 
   resetTimer() {

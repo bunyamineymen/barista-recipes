@@ -1,7 +1,8 @@
-import { Recipe, RecipeCategory } from '../model/RecipeModel';
+import { Recipe, RecipeCategory, Ingredient } from '../model/RecipeModel';
 import { RecipeService } from '../service/RecipeService';
 import { CoffeeConstants } from '../common/Constants';
 import { BackButton } from '../view/BackButton';
+import { promptAction } from '@kit.ArkUI';
 
 @Component
 export struct RecipeDetail {
@@ -16,8 +17,19 @@ export struct RecipeDetail {
   }
 
   async toggleFavorite() {
-    await RecipeService.getInstance().toggleFavorite(this.recipeId);
-    this.isFavorite = !this.isFavorite;
+    try {
+      await RecipeService.getInstance().toggleFavorite(this.recipeId);
+      this.isFavorite = !this.isFavorite;
+      promptAction.showToast({
+        message: this.isFavorite ? 'Added to favorites' : 'Removed from favorites',
+        duration: 2000
+      });
+    } catch (err) {
+      promptAction.showToast({
+        message: 'Failed to update favorites',
+        duration: 2000
+      });
+    }
   }
 
   getRecipeIcon(): Resource {
@@ -69,11 +81,11 @@ export struct RecipeDetail {
                 .fontColor(CoffeeConstants.ACCENT_COLOR)
                 .margin({ top: 10 })
 
-              ForEach(this.recipe.ingredients, (ing: any) => {
+              ForEach(this.recipe.ingredients, (ing: Ingredient) => {
                 Text(`• ${ing.name}: ${ing.amount}`)
                   .fontSize(14)
                   .fontColor(CoffeeConstants.WHITE)
-              })
+              }, (ing: Ingredient) => ing.name)
 
               Button('Start Brewing')
                 .backgroundColor(CoffeeConstants.ACCENT_COLOR)

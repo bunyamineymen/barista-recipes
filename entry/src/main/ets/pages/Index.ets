@@ -43,11 +43,11 @@ struct Index {
     } else if (name === 'TeaRecipes') {
       CategoryRecipes({ category: RecipeCategory.TEA })
     } else if (name === 'RecipeDetail') {
-      RecipeDetail({ recipeId: param as string })
+      RecipeDetail({ recipeId: param as unknown as string })
     } else if (name === 'CurrentCoffeeRecipe') {
-      CurrentCoffeeRecipe({ recipeId: param as string })
+      CurrentCoffeeRecipe({ recipeId: param as unknown as string })
     } else if (name === 'ReadyCoffee') {
-      ReadyCoffee({ recipeId: param as string })
+      ReadyCoffee({ recipeId: param as unknown as string })
     } else if (name === 'Favorites') {
       FavoritesList()
     } else if (name === 'History') {

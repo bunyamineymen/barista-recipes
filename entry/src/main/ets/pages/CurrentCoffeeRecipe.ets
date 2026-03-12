@@ -29,19 +29,16 @@ export struct CurrentCoffeeRecipe {
   }
 
   startVoiceCommandDetection() {
-    // Placeholder for SpeechRecognizer implementation
-    // In a real device, we would initialize SpeechRecognizer here
     console.info('SpeechRecognizer: Listening for "Next", "Start Timer", "Pause"');
   }
 
   stopVoiceCommandDetection() {
-    // Placeholder to release SpeechRecognizer resources
     console.info('SpeechRecognizer: Stopped listening');
   }
 
   resetTimer() {
     this.stopTimer();
-    if (this.recipe && this.recipe.steps[this.currentStepIndex].timerSeconds) {
+    if (this.recipe && this.recipe.steps[this.currentStepIndex] && this.recipe.steps[this.currentStepIndex].timerSeconds) {
       this.timeLeft = this.recipe.steps[this.currentStepIndex].timerSeconds!;
     } else {
       this.timeLeft = 0;
@@ -85,7 +82,7 @@ export struct CurrentCoffeeRecipe {
   }
 
   getStepColor(): string {
-    if (!this.recipe) return CoffeeConstants.TEXT_COLOR;
+    if (!this.recipe || !this.recipe.steps[this.currentStepIndex]) return CoffeeConstants.TEXT_COLOR;
     const step = this.recipe.steps[this.currentStepIndex];
     switch (step.type) {
       case 'espresso': return CoffeeConstants.ESPRESSO_COLOR;
@@ -99,7 +96,6 @@ export struct CurrentCoffeeRecipe {
     NavDestination() {
       if (this.recipe) {
         Stack() {
-          // Progress Ring (simulated with Progress component)
           Progress({
             value: this.currentStepIndex + 1,
             total: this.recipe.steps.length,
@@ -114,20 +110,22 @@ export struct CurrentCoffeeRecipe {
           BackButton()
 
           Column({ space: 10 }) {
-            Text(`${this.recipe.name}`)
+            Text(`${this.recipe?.name ?? ''}`)
               .fontSize(14)
               .fontColor(CoffeeConstants.ACCENT_COLOR)
 
-            Text(`Step ${this.currentStepIndex + 1} of ${this.recipe.steps.length}`)
+            Text(`Step ${this.currentStepIndex + 1} of ${this.recipe?.steps.length ?? 0}`)
               .fontSize(12)
               .fontColor(CoffeeConstants.WHITE)
 
-            Text(this.recipe.steps[this.currentStepIndex].description)
-              .fontSize(18)
-              .fontWeight(FontWeight.Bold)
-              .textAlign(TextAlign.Center)
-              .fontColor(this.getStepColor())
-              .padding({ left: 40, right: 40 })
+            if (this.recipe && this.recipe.steps[this.currentStepIndex]) {
+              Text(this.recipe.steps[this.currentStepIndex].description)
+                .fontSize(18)
+                .fontWeight(FontWeight.Bold)
+                .textAlign(TextAlign.Center)
+                .fontColor(this.getStepColor())
+                .padding({ left: 40, right: 40 })
+            }
 
             if (this.timeLeft > 0 || this.isTimerRunning) {
               Text(`${this.timeLeft}s`)
@@ -148,7 +146,6 @@ export struct CurrentCoffeeRecipe {
                 })
             }
 
-            // Voice command hint
             Text('Say "Next" to continue')
               .fontSize(10)
               .fontColor(CoffeeConstants.WHITE)
@@ -167,11 +164,11 @@ export struct CurrentCoffeeRecipe {
                   }
                 })
 
-              Button(this.currentStepIndex < this.recipe.steps.length - 1 ? 'Next' : 'Done')
+              Button((this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) ? 'Next' : 'Done')
                 .backgroundColor(CoffeeConstants.ACCENT_COLOR)
                 .fontColor(CoffeeConstants.PRIMARY_COLOR)
                 .onClick(() => {
-                  if (this.currentStepIndex < this.recipe.steps.length - 1) {
+                  if (this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) {
                     this.currentStepIndex++;
                     this.resetTimer();
                     this.vibrate('short');

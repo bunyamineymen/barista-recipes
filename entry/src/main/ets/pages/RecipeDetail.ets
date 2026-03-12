@@ -11,12 +11,12 @@ export struct RecipeDetail {
   @State isFavorite: boolean = false;
   @Consume('pathStack') pathStack: NavPathStack;
 
-  async aboutToAppear() {
+  async aboutToAppear(): Promise<void> {
     this.recipe = RecipeService.getInstance().getRecipeById(this.recipeId);
     this.isFavorite = await RecipeService.getInstance().isFavorite(this.recipeId);
   }
 
-  async toggleFavorite() {
+  async toggleFavorite(): Promise<void> {
     try {
       await RecipeService.getInstance().toggleFavorite(this.recipeId);
       this.isFavorite = !this.isFavorite;
@@ -34,8 +34,6 @@ export struct RecipeDetail {
 
   getRecipeIcon(): Resource {
     if (!this.recipe) return $r('app.media.coffee');
-    // Using coffee icon for all as minimalist SVGs are not available,
-    // but in a real app, we'd use tarife ozel icons.
     return $r('app.media.coffee');
   }
 
@@ -59,11 +57,14 @@ export struct RecipeDetail {
                   .fontWeight(FontWeight.Bold)
                   .fontColor(CoffeeConstants.ACCENT_COLOR)
 
-                SymbolIcon($r('sys.symbol.heart_fill'))
-                  .fontSize(24)
-                  .fontColor(this.isFavorite ? Color.Red : CoffeeConstants.WHITE)
+                Image(this.isFavorite ? $r('sys.media.ohos_ic_public_favor_filled') : $r('sys.media.ohos_ic_public_favor'))
+                  .width(24)
+                  .height(24)
+                  .fillColor(this.isFavorite ? Color.Red : CoffeeConstants.WHITE)
                   .margin({ left: 10 })
-                  .onClick(() => this.toggleFavorite())
+                  .onClick(() => {
+                    this.toggleFavorite()
+                  })
               }
               .margin({ top: 40 })
 

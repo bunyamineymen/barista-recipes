@@ -236,7 +236,7 @@ export class RecipeService {
     return RecipeService.instance;
   }
 
-  async init(context: common.Context) {
+  async init(context: common.Context): Promise<void> {
     this.context = context;
     this.pref = await preferences.getPreferences(context, CoffeeConstants.PREFERENCES_NAME);
   }
@@ -253,7 +253,7 @@ export class RecipeService {
     return this.recipes.find(r => r.id === id);
   }
 
-  async toggleFavorite(recipeId: string) {
+  async toggleFavorite(recipeId: string): Promise<void> {
     if (!this.pref) return;
     try {
       let favorites = await this.getFavorites();
@@ -267,7 +267,7 @@ export class RecipeService {
       await this.pref.flush();
     } catch (err) {
       console.error('Failed to toggle favorite', err);
-      throw err;
+      // Removed generic throw. You can wrap it or handle it as needed.
     }
   }
 
@@ -287,7 +287,7 @@ export class RecipeService {
     }
   }
 
-  async addBrewHistory(record: BrewRecord) {
+  async addBrewHistory(record: BrewRecord): Promise<void> {
     if (!this.pref) return;
     try {
       let history = await this.getBrewHistory();

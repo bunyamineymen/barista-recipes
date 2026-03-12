@@ -6,8 +6,8 @@ import { CoffeeConstants } from '../common/Constants';
 import { BackButton } from '../view/BackButton';
 
 @Builder
-function header() {
-  Text('MILKY RECIPES')
+function header(title: string) {
+  Text(title.toUpperCase())
     .fontSize(15)
     .fontWeight(FontWeight.Bold)
     .textAlign(TextAlign.Center)
@@ -16,18 +16,24 @@ function header() {
 }
 
 @Component
-export struct MilkRecipes {
+export struct CategoryRecipes {
+  @Prop category: RecipeCategory;
   watchSize: string = CoffeeConstants.WATCH_SIZE
   context: UIContext = this.getUIContext()
-  header: ComponentContent<object> = new ComponentContent(this.context, wrapBuilder(header))
   @Consume('pathStack') pathStack: NavPathStack;
-  recipes: Recipe[] = RecipeService.getInstance().getRecipesByCategory(RecipeCategory.MILK);
+  recipes: Recipe[] = [];
+
+  aboutToAppear() {
+    this.recipes = RecipeService.getInstance().getRecipesByCategory(this.category);
+  }
 
   build() {
     NavDestination() {
       Flex() {
         BackButton()
-        ArcList({ header: this.header }) {
+        ArcList({
+          header: new ComponentContent(this.context, wrapBuilder(header), this.category as string)
+        }) {
           ForEach(this.recipes, (recipe: Recipe) => {
             ArcListItem() {
               CustomButton({ title: recipe.name })

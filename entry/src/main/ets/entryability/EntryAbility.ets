@@ -1,13 +1,19 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { RecipeService } from '../service/RecipeService';
 
 const DOMAIN = 0x0000;
 
 export default class EntryAbility extends UIAbility {
-  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
-    hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    try {
+      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+      await RecipeService.getInstance().init(this.context);
+      hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+    } catch (err) {
+      hilog.error(DOMAIN, 'testTag', 'Failed to initialize app: %{public}s', JSON.stringify(err));
+    }
   }
 
   onDestroy(): void {

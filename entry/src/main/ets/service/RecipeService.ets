@@ -23,9 +23,9 @@ export class RecipeService {
         { description: 'Pull espresso shot', timerSeconds: 25, type: 'espresso' },
         { description: 'Heat milk to 65C', timerSeconds: 30, type: 'milk' },
         { description: 'Create microfoam', timerSeconds: 20, type: 'milk' },
-        { description: 'Doldur (Fill cup)', type: 'milk' },
+        { description: 'Fill the cup', type: 'milk' },
         { description: 'Add latte art', type: 'other' },
-        { description: 'Serve', type: 'other' }
+        { description: 'Ready to serve', type: 'other' }
       ]
     },
     {
@@ -40,9 +40,9 @@ export class RecipeService {
         { description: 'Pull espresso shot', timerSeconds: 25, type: 'espresso' },
         { description: 'Froth milk for dry foam', timerSeconds: 40, type: 'milk' },
         { description: 'Wait for layers', timerSeconds: 10, type: 'other' },
-        { description: 'Kuru kopuk ekle', type: 'milk' },
-        { description: 'Katmanla (Layering)', type: 'milk' },
-        { description: 'Serve', type: 'other' }
+        { description: 'Add dry foam', type: 'milk' },
+        { description: 'Layer the drink', type: 'milk' },
+        { description: 'Ready to serve', type: 'other' }
       ]
     },
     {
@@ -58,7 +58,7 @@ export class RecipeService {
         { description: 'Steam milk (thin foam)', timerSeconds: 25, type: 'milk' },
         { description: 'Microfoam check', type: 'milk' },
         { description: 'Pour milk into espresso', type: 'milk' },
-        { description: 'Serve', type: 'other' }
+        { description: 'Ready to serve', type: 'other' }
       ]
     },
     // DAIRY-FREE RECIPES
@@ -73,8 +73,8 @@ export class RecipeService {
       steps: [
         { description: 'Pull double espresso shot', timerSeconds: 30, type: 'espresso' },
         { description: 'Heat water to 90C', timerSeconds: 60, type: 'water' },
-        { description: 'Sicak su ekle', type: 'water' },
-        { description: 'Serve', type: 'other' }
+        { description: 'Add hot water', type: 'water' },
+        { description: 'Ready to serve', type: 'other' }
       ]
     },
     {

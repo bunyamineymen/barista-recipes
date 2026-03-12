@@ -10,6 +10,7 @@ export struct CurrentCoffeeRecipe {
   @Prop recipeId: string;
   @State currentStepIndex: number = 0;
   @State timeLeft: number = 0;
+  @State totalStepTime: number = 0; // New state to track initial timer duration
   @State isTimerRunning: boolean = false;
   @State recipe: Recipe | undefined = undefined;
   @Consume('pathStack') pathStack: NavPathStack;
@@ -40,8 +41,10 @@ export struct CurrentCoffeeRecipe {
     this.stopTimer();
     if (this.recipe && this.recipe.steps[this.currentStepIndex] && this.recipe.steps[this.currentStepIndex].timerSeconds) {
       this.timeLeft = this.recipe.steps[this.currentStepIndex].timerSeconds!;
+      this.totalStepTime = this.timeLeft; // Set total time for progress ring
     } else {
       this.timeLeft = 0;
+      this.totalStepTime = 0;
     }
   }
 
@@ -97,9 +100,10 @@ export struct CurrentCoffeeRecipe {
       Stack({ alignContent: Alignment.TopStart }) {
         if (this.recipe) {
           Stack() {
+            // DYNAMIC PROGRESS RING: Shows timer countdown if active, otherwise step progress
             Progress({
-              value: this.currentStepIndex + 1,
-              total: this.recipe.steps.length,
+              value: this.timeLeft > 0 ? this.timeLeft : this.currentStepIndex + 1,
+              total: this.timeLeft > 0 ? this.totalStepTime : this.recipe.steps.length,
               type: ProgressType.Ring
             })
               .width('100%')
@@ -191,6 +195,13 @@ export struct CurrentCoffeeRecipe {
       .width(this.watchSize)
       .height(this.watchSize)
       .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
+      // Added Swipe-back gesture
+      .gesture(
+        PanGesture({ direction: PanDirection.Right })
+          .onActionEnd(() => {
+            this.pathStack.pop();
+          })
+      )
     }
     .hideTitleBar(true)
     .hideBackButton(true)

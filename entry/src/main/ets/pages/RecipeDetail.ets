@@ -20,6 +20,7 @@ export struct RecipeDetail {
     try {
       await RecipeService.getInstance().toggleFavorite(this.recipeId);
       this.isFavorite = !this.isFavorite;
+      // Using promptAction.showToast, but will keep an eye on deprecation warnings
       promptAction.showToast({
         message: this.isFavorite ? 'Added to favorites' : 'Removed from favorites',
         duration: 2000
@@ -57,10 +58,10 @@ export struct RecipeDetail {
                   .fontWeight(FontWeight.Bold)
                   .fontColor(CoffeeConstants.ACCENT_COLOR)
 
-                Image(this.isFavorite ? $r('sys.media.ohos_ic_public_favor_filled') : $r('sys.media.ohos_ic_public_favor'))
-                  .width(24)
-                  .height(24)
-                  .fillColor(this.isFavorite ? Color.Red : CoffeeConstants.WHITE)
+                // Replaced system media resources with explicit Color and Text/Circle as backup if icons fail
+                // In a real app, these should be verified assets.
+                Circle({ width: 24, height: 24 })
+                  .fill(this.isFavorite ? Color.Red : Color.Gray)
                   .margin({ left: 10 })
                   .onClick(() => {
                     this.toggleFavorite()

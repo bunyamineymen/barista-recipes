@@ -13,7 +13,7 @@ import { RecipeCategory } from '../model/RecipeModel';
 import { promptAction } from '@kit.ArkUI';
 
 @Builder
-function header() {
+function header(): void {
   Text('BARISTA RECIPES')
     .fontSize(20)
     .fontWeight(FontWeight.Bold)
@@ -31,7 +31,7 @@ struct Index {
   @Provide('pathStack') pathStack: NavPathStack = new NavPathStack()
 
   @Builder
-  PageMap(name: string, param: object) {
+  PageMap(name: string, param: object): void {
     if (name === 'MilkRecipes') {
       MilkRecipes()
     } else if (name === 'DairyFreeRecipes') {
@@ -43,11 +43,11 @@ struct Index {
     } else if (name === 'TeaRecipes') {
       CategoryRecipes({ category: RecipeCategory.TEA })
     } else if (name === 'RecipeDetail') {
-      RecipeDetail({ recipeId: param as unknown as string })
+      RecipeDetail({ recipeId: name === 'RecipeDetail' ? param.toString() : '' })
     } else if (name === 'CurrentCoffeeRecipe') {
-      CurrentCoffeeRecipe({ recipeId: param as unknown as string })
+      CurrentCoffeeRecipe({ recipeId: name === 'CurrentCoffeeRecipe' ? param.toString() : '' })
     } else if (name === 'ReadyCoffee') {
-      ReadyCoffee({ recipeId: param as unknown as string })
+      ReadyCoffee({ recipeId: name === 'ReadyCoffee' ? param.toString() : '' })
     } else if (name === 'Favorites') {
       FavoritesList()
     } else if (name === 'History') {

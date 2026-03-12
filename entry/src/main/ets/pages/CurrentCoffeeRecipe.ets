@@ -17,26 +17,26 @@ export struct CurrentCoffeeRecipe {
   private timerId: number = -1;
   watchSize: string = CoffeeConstants.WATCH_SIZE;
 
-  aboutToAppear() {
+  aboutToAppear(): void {
     this.recipe = RecipeService.getInstance().getRecipeById(this.recipeId);
     this.resetTimer();
     this.startVoiceCommandDetection();
   }
 
-  aboutToDisappear() {
+  aboutToDisappear(): void {
     this.stopTimer();
     this.stopVoiceCommandDetection();
   }
 
-  startVoiceCommandDetection() {
+  startVoiceCommandDetection(): void {
     console.info('SpeechRecognizer: Listening for "Next", "Start Timer", "Pause"');
   }
 
-  stopVoiceCommandDetection() {
+  stopVoiceCommandDetection(): void {
     console.info('SpeechRecognizer: Stopped listening');
   }
 
-  resetTimer() {
+  resetTimer(): void {
     this.stopTimer();
     if (this.recipe && this.recipe.steps[this.currentStepIndex] && this.recipe.steps[this.currentStepIndex].timerSeconds) {
       this.timeLeft = this.recipe.steps[this.currentStepIndex].timerSeconds!;
@@ -45,7 +45,7 @@ export struct CurrentCoffeeRecipe {
     }
   }
 
-  startTimer() {
+  startTimer(): void {
     if (this.timeLeft > 0 && !this.isTimerRunning) {
       this.isTimerRunning = true;
       this.timerId = setInterval(() => {
@@ -59,7 +59,7 @@ export struct CurrentCoffeeRecipe {
     }
   }
 
-  stopTimer() {
+  stopTimer(): void {
     if (this.timerId !== -1) {
       clearInterval(this.timerId);
       this.timerId = -1;
@@ -67,7 +67,7 @@ export struct CurrentCoffeeRecipe {
     this.isTimerRunning = false;
   }
 
-  vibrate(type: 'short' | 'long') {
+  vibrate(type: 'short' | 'long'): void {
     try {
       vibrator.startVibration({
         type: 'time',
@@ -164,7 +164,7 @@ export struct CurrentCoffeeRecipe {
                   }
                 })
 
-              Button((this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) ? 'Next' : 'Done')
+              Button((this.recipe && this.currentStepIndex < (this.recipe?.steps.length ?? 0) - 1) ? 'Next' : 'Done')
                 .backgroundColor(CoffeeConstants.ACCENT_COLOR)
                 .fontColor(CoffeeConstants.PRIMARY_COLOR)
                 .onClick(() => {

@@ -21,12 +21,14 @@ export struct RecipeDetail {
       await RecipeService.getInstance().toggleFavorite(this.recipeId);
       this.isFavorite = !this.isFavorite;
       // Using promptAction.showToast, but will keep an eye on deprecation warnings
-      promptAction.showToast({
+
+      this.getUIContext().getPromptAction().showToast({
         message: this.isFavorite ? 'Added to favorites' : 'Removed from favorites',
         duration: 2000
       });
+
     } catch (err) {
-      promptAction.showToast({
+      this.getUIContext().getPromptAction().showToast({
         message: 'Failed to update favorites',
         duration: 2000
       });

@@ -62,6 +62,20 @@ export class RecipeService {
         { description: 'Ready to serve', type: 'other' }
       ]
     },
+    {
+      id: 'macchiato',
+      name: 'Macchiato',
+      category: RecipeCategory.MILK,
+      difficulty: Difficulty.EASY,
+      totalTimeMinutes: 3,
+      icon: $r('app.media.ic_mocha'),
+      ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Milk Foam', amount: '2 spoons' }],
+      steps: [
+        { description: 'Pull espresso shot', timerSeconds: 25, type: 'espresso' },
+        { description: 'Froth small amount of milk', timerSeconds: 15, type: 'milk' },
+        { description: 'Dollop foam on espresso', type: 'milk' }
+      ]
+    },
     // DAIRY-FREE RECIPES
     {
       id: 'americano',
@@ -173,7 +187,7 @@ export class RecipeService {
       category: RecipeCategory.SPECIAL,
       difficulty: Difficulty.MEDIUM,
       totalTimeMinutes: 6,
-      icon: $r('app.media.ic_latte'),
+      icon: $r('app.media.ic_mocha'),
       ingredients: [{ name: 'Espresso', amount: '30ml' }, { name: 'Choc. Syrup', amount: '20ml' }, { name: 'Milk', amount: '150ml' }],
       steps: [
         { description: 'Mix espresso and syrup', type: 'espresso' },
@@ -203,7 +217,7 @@ export class RecipeService {
       category: RecipeCategory.SPECIAL,
       difficulty: Difficulty.EASY,
       totalTimeMinutes: 3,
-      icon: $r('app.media.ic_espresso'),
+      icon: $r('app.media.ic_affogato'),
       ingredients: [{ name: 'Vanilla Ice Cream', amount: '1 scoop' }, { name: 'Espresso', amount: '30ml' }],
       steps: [
         { description: 'Place ice cream in cup', type: 'other' },

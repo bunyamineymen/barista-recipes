@@ -20,7 +20,6 @@ export struct RecipeDetail {
     try {
       await RecipeService.getInstance().toggleFavorite(this.recipeId);
       this.isFavorite = !this.isFavorite;
-      // Using promptAction.showToast, but will keep an eye on deprecation warnings
       promptAction.showToast({
         message: this.isFavorite ? 'Added to favorites' : 'Removed from favorites',
         duration: 2000
@@ -42,10 +41,8 @@ export struct RecipeDetail {
 
   build() {
     NavDestination() {
-      if (this.recipe) {
-        Column() {
-          BackButton()
-
+      Stack({ alignContent: Alignment.TopStart }) {
+        if (this.recipe) {
           Scroll() {
             Column({ space: 10 }) {
               Image(this.getRecipeIcon())
@@ -60,8 +57,6 @@ export struct RecipeDetail {
                   .fontWeight(FontWeight.Bold)
                   .fontColor(CoffeeConstants.ACCENT_COLOR)
 
-                // Replaced system media resources with explicit Color and Text/Circle as backup if icons fail
-                // In a real app, these should be verified assets.
                 Circle({ width: 24, height: 24 })
                   .fill(this.isFavorite ? Color.Red : Color.Gray)
                   .margin({ left: 10 })
@@ -69,15 +64,15 @@ export struct RecipeDetail {
                     this.toggleFavorite()
                   })
               }
-              .margin({ top: 40 })
+              .margin({ top: 10 })
 
               Text(`Difficulty: ${this.recipe.difficulty}`)
                 .fontSize(14)
-                .fontColor(CoffeeConstants.WHITE)
+                .fontColor(Color.White)
 
               Text(`Total Time: ${this.recipe.totalTimeMinutes} min`)
                 .fontSize(14)
-                .fontColor(CoffeeConstants.WHITE)
+                .fontColor(Color.White)
 
               Text('Ingredients:')
                 .fontSize(16)
@@ -88,7 +83,7 @@ export struct RecipeDetail {
               ForEach(this.recipe.ingredients, (ing: Ingredient) => {
                 Text(`• ${ing.name}: ${ing.amount}`)
                   .fontSize(14)
-                  .fontColor(CoffeeConstants.WHITE)
+                  .fontColor(Color.White)
               }, (ing: Ingredient) => ing.name)
 
               Button('Start Brewing')
@@ -103,10 +98,13 @@ export struct RecipeDetail {
             .alignItems(HorizontalAlign.Center)
           }
         }
-        .width(CoffeeConstants.WATCH_SIZE)
-        .height(CoffeeConstants.WATCH_SIZE)
-        .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
+
+        BackButton()
+          .margin({ top: 40, left: 40 })
       }
+      .width(CoffeeConstants.WATCH_SIZE)
+      .height(CoffeeConstants.WATCH_SIZE)
+      .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
     }
     .hideTitleBar(true)
     .hideBackButton(true)

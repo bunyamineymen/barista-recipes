@@ -11,6 +11,11 @@ export default class EntryAbility extends UIAbility {
       this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
       await RecipeService.getInstance().init(this.context);
       hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+
+      // Integration Test Check (Can be disabled for production)
+      const recipes = RecipeService.getInstance().getAllRecipes();
+      hilog.info(DOMAIN, 'testTag', 'Recipe validation: %{public}d recipes loaded', recipes.length);
+
     } catch (err) {
       hilog.error(DOMAIN, 'testTag', 'Failed to initialize app: %{public}s', JSON.stringify(err));
     }

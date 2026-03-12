@@ -6,7 +6,7 @@ import { CoffeeConstants } from '../common/Constants';
 import { BackButton } from '../view/BackButton';
 
 @Builder
-function header() {
+function header(): void {
   Text('BREW HISTORY')
     .fontSize(15)
     .fontWeight(FontWeight.Bold)
@@ -33,39 +33,45 @@ export struct BrewHistory {
 
   build() {
     NavDestination() {
-      Flex() {
-        BackButton()
-        ArcList({ header: this.header }) {
-          if (this.history.length === 0) {
-            ArcListItem() {
-              Text('No history yet')
-                .fontColor(CoffeeConstants.WHITE)
-                .textAlign(TextAlign.Center)
-                .width('100%')
-            }
-          }
-          ForEach(this.history, (item: BrewRecord) => {
-            ArcListItem() {
-              Column() {
-                Text(item.recipeName)
-                  .fontSize(16)
-                  .fontWeight(FontWeight.Bold)
-                  .fontColor(CoffeeConstants.ACCENT_COLOR)
-                Text(this.formatDate(item.timestamp))
-                  .fontSize(12)
-                  .fontColor(CoffeeConstants.WHITE)
+      Stack({ alignContent: Alignment.TopStart }) {
+        Flex() {
+          ArcList({ header: this.header }) {
+            if (this.history.length === 0) {
+              ArcListItem() {
+                Text('No history yet')
+                  .fontColor(Color.White)
+                  .textAlign(TextAlign.Center)
+                  .width('100%')
               }
-              .width('100%')
-              .padding(10)
-              .backgroundColor('#444444')
-              .borderRadius(10)
-              .margin({ top: 5, bottom: 5 })
-              .onClick(() => {
-                this.pathStack.pushPathByName('RecipeDetail', item.recipeId)
-              })
             }
-          }, (item: BrewRecord) => item.timestamp.toString())
+            ForEach(this.history, (item: BrewRecord) => {
+              ArcListItem() {
+                Column() {
+                  Text(item.recipeName)
+                    .fontSize(16)
+                    .fontWeight(FontWeight.Bold)
+                    .fontColor(CoffeeConstants.ACCENT_COLOR)
+                  Text(this.formatDate(item.timestamp))
+                    .fontSize(12)
+                    .fontColor(Color.White)
+                }
+                .width('100%')
+                .padding(10)
+                .backgroundColor('#444444')
+                .borderRadius(10)
+                .margin({ top: 5, bottom: 5 })
+                .onClick(() => {
+                  this.pathStack.pushPathByName('RecipeDetail', item.recipeId)
+                })
+              }
+            }, (item: BrewRecord) => item.timestamp.toString())
+          }
         }
+        .width('100%')
+        .height('100%')
+
+        BackButton()
+          .margin({ top: 40, left: 40 })
       }
       .width(CoffeeConstants.WATCH_SIZE)
       .height(CoffeeConstants.WATCH_SIZE)

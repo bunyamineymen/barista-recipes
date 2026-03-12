@@ -6,7 +6,7 @@ import { CoffeeConstants } from '../common/Constants';
 import { BackButton } from '../view/BackButton';
 
 @Builder
-function header() {
+function header(): void {
   Text('MILKY RECIPES')
     .fontSize(15)
     .fontWeight(FontWeight.Bold)
@@ -25,18 +25,24 @@ export struct MilkRecipes {
 
   build() {
     NavDestination() {
-      Flex() {
-        BackButton()
-        ArcList({ header: this.header }) {
-          ForEach(this.recipes, (recipe: Recipe) => {
-            ArcListItem() {
-              CustomButton({ title: recipe.name })
-                .onClick(() => {
-                  this.pathStack.pushPathByName('RecipeDetail', recipe.id)
-                })
-            }
-          }, (recipe: Recipe) => recipe.id)
+      Stack({ alignContent: Alignment.TopStart }) {
+        Flex() {
+          ArcList({ header: this.header }) {
+            ForEach(this.recipes, (recipe: Recipe) => {
+              ArcListItem() {
+                CustomButton({ title: recipe.name })
+                  .onClick(() => {
+                    this.pathStack.pushPathByName('RecipeDetail', recipe.id)
+                  })
+              }
+            }, (recipe: Recipe) => recipe.id)
+          }
         }
+        .width('100%')
+        .height('100%')
+
+        BackButton()
+          .margin({ top: 40, left: 40 })
       }
       .width(this.watchSize)
       .height(this.watchSize)

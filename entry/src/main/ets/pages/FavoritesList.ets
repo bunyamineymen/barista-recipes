@@ -6,7 +6,7 @@ import { CoffeeConstants } from '../common/Constants';
 import { BackButton } from '../view/BackButton';
 
 @Builder
-function header() {
+function header(): void {
   Text('FAVORITE RECIPES')
     .fontSize(15)
     .fontWeight(FontWeight.Bold)
@@ -34,27 +34,33 @@ export struct FavoritesList {
 
   build() {
     NavDestination() {
-      Flex() {
-        BackButton()
-        ArcList({ header: this.header }) {
-          if (this.favoriteRecipes.length === 0) {
-            ArcListItem() {
-              Text('No favorites yet')
-                .fontColor(CoffeeConstants.WHITE)
-                .textAlign(TextAlign.Center)
-                .width('100%')
-                .margin({ top: 20 })
+      Stack({ alignContent: Alignment.TopStart }) {
+        Flex() {
+          ArcList({ header: this.header }) {
+            if (this.favoriteRecipes.length === 0) {
+              ArcListItem() {
+                Text('No favorites yet')
+                  .fontColor(Color.White)
+                  .textAlign(TextAlign.Center)
+                  .width('100%')
+                  .margin({ top: 20 })
+              }
             }
+            ForEach(this.favoriteRecipes, (recipe: Recipe) => {
+              ArcListItem() {
+                CustomButton({ title: recipe.name })
+                  .onClick(() => {
+                    this.pathStack.pushPathByName('RecipeDetail', recipe.id)
+                  })
+              }
+            }, (recipe: Recipe) => recipe.id)
           }
-          ForEach(this.favoriteRecipes, (recipe: Recipe) => {
-            ArcListItem() {
-              CustomButton({ title: recipe.name })
-                .onClick(() => {
-                  this.pathStack.pushPathByName('RecipeDetail', recipe.id)
-                })
-            }
-          }, (recipe: Recipe) => recipe.id)
         }
+        .width('100%')
+        .height('100%')
+
+        BackButton()
+          .margin({ top: 40, left: 40 })
       }
       .width(CoffeeConstants.WATCH_SIZE)
       .height(CoffeeConstants.WATCH_SIZE)

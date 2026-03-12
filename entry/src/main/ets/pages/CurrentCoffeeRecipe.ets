@@ -94,98 +94,103 @@ export struct CurrentCoffeeRecipe {
 
   build() {
     NavDestination() {
-      if (this.recipe) {
-        Stack() {
-          Progress({
-            value: this.currentStepIndex + 1,
-            total: this.recipe.steps.length,
-            type: ProgressType.Ring
-          })
-            .width('100%')
-            .height('100%')
-            .color(this.getStepColor())
-            .backgroundColor('#333333')
-            .style({ strokeWidth: 10 })
+      Stack({ alignContent: Alignment.TopStart }) {
+        if (this.recipe) {
+          Stack() {
+            Progress({
+              value: this.currentStepIndex + 1,
+              total: this.recipe.steps.length,
+              type: ProgressType.Ring
+            })
+              .width('100%')
+              .height('100%')
+              .color(this.getStepColor())
+              .backgroundColor('#333333')
+              .style({ strokeWidth: 10 })
 
-          BackButton()
-
-          Column({ space: 10 }) {
-            Text(`${this.recipe?.name ?? ''}`)
-              .fontSize(14)
-              .fontColor(CoffeeConstants.ACCENT_COLOR)
-
-            Text(`Step ${this.currentStepIndex + 1} of ${this.recipe?.steps.length ?? 0}`)
-              .fontSize(12)
-              .fontColor(CoffeeConstants.WHITE)
-
-            if (this.recipe && this.recipe.steps[this.currentStepIndex]) {
-              Text(this.recipe.steps[this.currentStepIndex].description)
-                .fontSize(18)
-                .fontWeight(FontWeight.Bold)
-                .textAlign(TextAlign.Center)
-                .fontColor(this.getStepColor())
-                .padding({ left: 40, right: 40 })
-            }
-
-            if (this.timeLeft > 0 || this.isTimerRunning) {
-              Text(`${this.timeLeft}s`)
-                .fontSize(24)
+            Column({ space: 10 }) {
+              Text(`${this.recipe?.name ?? ''}`)
+                .fontSize(14)
                 .fontColor(CoffeeConstants.ACCENT_COLOR)
-                .onClick(() => {
-                  if (this.isTimerRunning) this.stopTimer();
-                  else this.startTimer();
-                })
 
-              Button(this.isTimerRunning ? 'Pause' : 'Start Timer')
+              Text(`Step ${this.currentStepIndex + 1} of ${this.recipe?.steps.length ?? 0}`)
                 .fontSize(12)
-                .backgroundColor(CoffeeConstants.ACCENT_COLOR)
-                .fontColor(CoffeeConstants.PRIMARY_COLOR)
-                .onClick(() => {
-                  if (this.isTimerRunning) this.stopTimer();
-                  else this.startTimer();
-                })
+                .fontColor(Color.White)
+
+              if (this.recipe && this.recipe.steps[this.currentStepIndex]) {
+                Text(this.recipe.steps[this.currentStepIndex].description)
+                  .fontSize(18)
+                  .fontWeight(FontWeight.Bold)
+                  .textAlign(TextAlign.Center)
+                  .fontColor(this.getStepColor())
+                  .padding({ left: 40, right: 40 })
+              }
+
+              if (this.timeLeft > 0 || this.isTimerRunning) {
+                Text(`${this.timeLeft}s`)
+                  .fontSize(24)
+                  .fontColor(CoffeeConstants.ACCENT_COLOR)
+                  .onClick(() => {
+                    if (this.isTimerRunning) this.stopTimer();
+                    else this.startTimer();
+                  })
+
+                Button(this.isTimerRunning ? 'Pause' : 'Start Timer')
+                  .fontSize(12)
+                  .backgroundColor(CoffeeConstants.ACCENT_COLOR)
+                  .fontColor(CoffeeConstants.PRIMARY_COLOR)
+                  .onClick(() => {
+                    if (this.isTimerRunning) this.stopTimer();
+                    else this.startTimer();
+                  })
+              }
+
+              Text('Say "Next" to continue')
+                .fontSize(10)
+                .fontColor(Color.White)
+                .opacity(0.6)
+                .margin({ top: 5 })
+
+              Row({ space: 20 }) {
+                Button('Prev')
+                  .enabled(this.currentStepIndex > 0)
+                  .backgroundColor('#444444')
+                  .onClick(() => {
+                    if (this.currentStepIndex > 0) {
+                      this.currentStepIndex--;
+                      this.resetTimer();
+                      this.vibrate('short');
+                    }
+                  })
+
+                Button((this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) ? 'Next' : 'Done')
+                  .backgroundColor(CoffeeConstants.ACCENT_COLOR)
+                  .fontColor(CoffeeConstants.PRIMARY_COLOR)
+                  .onClick(() => {
+                    if (this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) {
+                      this.currentStepIndex++;
+                      this.resetTimer();
+                      this.vibrate('short');
+                    } else {
+                      this.pathStack.pushPathByName('ReadyCoffee', this.recipeId);
+                    }
+                  })
+              }
+              .margin({ top: 10 })
             }
-
-            Text('Say "Next" to continue')
-              .fontSize(10)
-              .fontColor(CoffeeConstants.WHITE)
-              .opacity(0.6)
-              .margin({ top: 5 })
-
-            Row({ space: 20 }) {
-              Button('Prev')
-                .enabled(this.currentStepIndex > 0)
-                .backgroundColor('#444444')
-                .onClick(() => {
-                  if (this.currentStepIndex > 0) {
-                    this.currentStepIndex--;
-                    this.resetTimer();
-                    this.vibrate('short');
-                  }
-                })
-
-              Button((this.recipe && this.currentStepIndex < (this.recipe?.steps.length ?? 0) - 1) ? 'Next' : 'Done')
-                .backgroundColor(CoffeeConstants.ACCENT_COLOR)
-                .fontColor(CoffeeConstants.PRIMARY_COLOR)
-                .onClick(() => {
-                  if (this.recipe && this.currentStepIndex < this.recipe.steps.length - 1) {
-                    this.currentStepIndex++;
-                    this.resetTimer();
-                    this.vibrate('short');
-                  } else {
-                    this.pathStack.pushPathByName('ReadyCoffee', this.recipeId);
-                  }
-                })
-            }
-            .margin({ top: 10 })
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
           }
-          .justifyContent(FlexAlign.Center)
-          .alignItems(HorizontalAlign.Center)
+          .width('100%')
+          .height('100%')
         }
-        .width(this.watchSize)
-        .height(this.watchSize)
-        .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
+
+        BackButton()
+          .margin({ top: 40, left: 40 })
       }
+      .width(this.watchSize)
+      .height(this.watchSize)
+      .backgroundColor(CoffeeConstants.PRIMARY_COLOR)
     }
     .hideTitleBar(true)
     .hideBackButton(true)

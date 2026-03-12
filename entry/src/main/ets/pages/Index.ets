@@ -43,16 +43,20 @@ struct Index {
     } else if (name === 'TeaRecipes') {
       CategoryRecipes({ category: RecipeCategory.TEA })
     } else if (name === 'RecipeDetail') {
-      RecipeDetail({ recipeId: name === 'RecipeDetail' ? param.toString() : '' })
+      RecipeDetail({ recipeId: this.getParamString(param) })
     } else if (name === 'CurrentCoffeeRecipe') {
-      CurrentCoffeeRecipe({ recipeId: name === 'CurrentCoffeeRecipe' ? param.toString() : '' })
+      CurrentCoffeeRecipe({ recipeId: this.getParamString(param) })
     } else if (name === 'ReadyCoffee') {
-      ReadyCoffee({ recipeId: name === 'ReadyCoffee' ? param.toString() : '' })
+      ReadyCoffee({ recipeId: this.getParamString(param) })
     } else if (name === 'Favorites') {
       FavoritesList()
     } else if (name === 'History') {
       BrewHistory()
     }
+  }
+
+  getParamString(param: object): string {
+    return param.toString();
   }
 
   build() {

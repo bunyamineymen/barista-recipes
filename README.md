@@ -17,33 +17,47 @@ BaristaRecipes is a demo app that helps users brew delicious coffee at home. It 
 
 BaristaRecipes lets users:
 
-* Browse curated **milk** (e.g., Latte, Cappuccino, Flat White) and **non-dairy** (e.g., Americano, Espresso, Pour‑Over) coffee recipes.
-* Follow **step-by-step brewing instructions** with timers and tips.
-* Use **Sensor Kit–powered mixing** to track swirl/shake gestures and receive feedback (e.g., “Keep swirling 8s more”).
+* **Browse 15+ curated recipes** across 5 categories: **Milk**, **Dairy-Free**, **Cold**, **Special**, and **Tea-Based**.
+* **View detailed recipe profiles** including **Ingredients**, **Brewing Time**, and **Difficulty Level**.
+* **Follow precise step-by-step instructions** with integrated **Step Timers** and dynamic **Progress Rings**.
+* **Interact with hardware sensors**:
+    * **Haptic Feedback**: Receive unique vibration patterns for step changes and timer completion.
+    * **Accelerometer**: Track "Mixing" progress in real-time by shaking your device.
+* **Personalize the experience**:
+    * **Favorites**: Save your most-loved recipes for quick access.
+    * **Brew History**: Automatically track and review your 20 most recent brewing sessions.
+* **Navigate effortlessly** on circular wearable displays using an optimized UI, dedicated **BackButton**, and **Swipe-to-go-back** gestures.
 
 # Tech Stack
 
 Languages: ArkTS
-Frameworks: HarmonyOS SDK 5.1.0(18)
+Frameworks: HarmonyOS NEXT SDK 5.1.0(18)
 Tools: DevEco Studio Vers 5.1.0.820
-Libraries: `@kit.ArkUI`, `@kit.SensorServiceKit`
+Libraries: `@kit.ArkUI`, `@kit.SensorServiceKit`, `@kit.ArkData` (Preferences)
 
 # Directory Structure
 
 ```
   entry/src/main/ets/
+  |---common
+  |   |---Constants.ets                    // App-wide theme and constant definitions
   |---entryability
-  |   |---EntryAbility.ets
-  |---entrybackupability
-  |   |---EntryBackupAbility.ets
+  |   |---EntryAbility.ets                 // Lifecycle management and service init
+  |---model
+  |   |---RecipeModel.ets                  // Data structures and interfaces
   |---pages
-  |   |---CurrentCoffeeRecipe.ets          // Recipe that user chose will be displayed
-  |   |---DairyFreeRecipes.ets             // Recipes without milk list
-  |   |---Index.ets                        // Home Page 
-  |   |---MilkRecipes.ets                  // Recipes with milk list
-  |   |---ReadyCoffee.ets                  // When your coffee is ready this page will be displayed
+  |   |---BrewHistory.ets                  // Persisted brewing session history
+  |   |---CategoryRecipes.ets              // Dynamic category listing
+  |   |---CurrentCoffeeRecipe.ets          // Timed brewing guide with haptics
+  |   |---FavoritesList.ets                // User's bookmarked recipes
+  |   |---Index.ets                        // Main menu and Navigation root
+  |   |---ReadyCoffee.ets                  // Final stage with Mixing Detection
+  |   |---RecipeDetail.ets                 // Detailed ingredients and metadata
+  |---service
+  |   |---RecipeService.ets                // Recipe management and local storage (Preferences)
   |---view
-  |   |---CustomButton.ets                 // Reusable custom button
+  |   |---BackButton.ets                   // Wearable-optimized navigation button
+  |   |---CustomButton.ets                 // Reusable menu button component
 ```
 
 # Constraints and Restrictions

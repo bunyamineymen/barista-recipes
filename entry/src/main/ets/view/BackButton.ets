@@ -8,10 +8,10 @@ export struct BackButton {
     Button('<')
       .backgroundColor(CoffeeConstants.ACCENT_COLOR)
       .fontColor(CoffeeConstants.PRIMARY_COLOR)
-      .borderRadius(20)
-      .width(40)
-      .height(40)
-      .fontSize(24)
+      .borderRadius(16)
+      .width(32)
+      .height(32)
+      .fontSize(16)
       .fontWeight(FontWeight.Bold)
       .padding(0)
       .onClick(() => {
@@ -19,5 +19,6 @@ export struct BackButton {
           this.pathStack.pop();
         }
       })
+      .hitTestBehavior(HitTestMode.Block)
   }
 }

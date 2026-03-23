@@ -179,7 +179,7 @@ export struct CurrentCoffeeRecipe {
         }
 
         BackButton()
-          .margin({ top: 40, left: 40 })
+          .margin({ top: 20, left: 20 })
       }
       .width(this.watchSize)
       .height(this.watchSize)

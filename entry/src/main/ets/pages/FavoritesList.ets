@@ -60,7 +60,7 @@ export struct FavoritesList {
         .height('100%')
 
         BackButton()
-          .margin({ top: 40, left: 40 })
+          .margin({ top: 20, left: 20 })
       }
       .width(CoffeeConstants.WATCH_SIZE)
       .height(CoffeeConstants.WATCH_SIZE)

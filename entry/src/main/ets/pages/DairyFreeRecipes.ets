@@ -42,7 +42,7 @@ export struct DairyFreeRecipes {
         .height('100%')
 
         BackButton()
-          .margin({ top: 20, left: 20 })
+          .margin({ top: 20, left: 40 })
       }
       .width(this.watchSize)
       .height(this.watchSize)
